@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar Post — BlogAutos{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div style="background:var(--gris-oscuro); border:1px solid #e8112d33; border-radius:4px; padding:2rem; text-align:center;">
+                <i class="bi bi-exclamation-triangle" style="font-size:3rem; color:var(--rojo);"></i>
+                <h2 style="font-family:'Barlow Condensed',sans-serif; font-weight:800; text-transform:uppercase; margin-top:1rem; color:#fff;">
+                    ¿Eliminar este post?
+                </h2>
+                <p style="color:#888; margin:1rem 0 1.5rem;">
+                    Estás por eliminar <strong style="color:#fff;">{{ post.titulo }}</strong>.<br>
+                    Esta acción no se puede deshacer.
+                </p>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="submit" class="btn btn-danger px-4">
+                            <i class="bi bi-trash me-1"></i>Sí, eliminar
+                        </button>
+                        <a href="{% url 'pages' %}" class="btn btn-outline-secondary px-4">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

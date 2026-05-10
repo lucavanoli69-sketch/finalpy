@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrarse — BlogAutos{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div style="background:var(--gris-oscuro); border:1px solid #2a2a2a; border-radius:4px; padding:2.5rem;">
+                <div class="text-center mb-4">
+                    <div class="linea-roja mx-auto"></div>
+                    <h2 style="font-family:'Barlow Condensed',sans-serif; font-weight:800; text-transform:uppercase; color:#fff; font-size:1.8rem;">
+                        Crear Cuenta
+                    </h2>
+                    <p style="color:#888; font-size:0.85rem;">Unite a la comunidad de BlogAutos</p>
+                </div>
+
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <div style="font-size:0.78rem; color:#555; margin-top:3px;">{{ field.help_text }}</div>
+                        {% endif %}
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <div class="text-danger mt-1" style="font-size:0.82rem;">
+                                    <i class="bi bi-exclamation-circle me-1"></i>{{ error }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-rojo w-100 py-2 mt-2">
+                        <i class="bi bi-person-plus me-1"></i>Crear Cuenta
+                    </button>
+                </form>
+
+                <p class="text-center mt-4" style="color:#888; font-size:0.85rem;">
+                    ¿Ya tenés cuenta?
+                    <a href="{% url 'login' %}" style="color:var(--rojo); text-decoration:none; font-weight:600;">
+                        Ingresá
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

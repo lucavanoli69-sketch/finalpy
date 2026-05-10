@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Bandeja de Entrada — BlogAutos{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div class="container">
+        <div class="linea-roja"></div>
+        <h1>Mis <span>Mensajes</span></h1>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex gap-2">
+            <a href="{% url 'inbox' %}" class="btn btn-rojo btn-sm">
+                <i class="bi bi-inbox me-1"></i>Recibidos
+            </a>
+            <a href="{% url 'enviados' %}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-send me-1"></i>Enviados
+            </a>
+        </div>
+        <a href="{% url 'enviar_mensaje' %}" class="btn btn-outline-rojo btn-sm">
+            <i class="bi bi-pencil me-1"></i>Nuevo Mensaje
+        </a>
+    </div>
+
+    {% if mensajes %}
+        <div class="d-flex flex-column gap-2">
+            {% for mensaje in mensajes %}
+            <div style="background:var(--gris-oscuro); border:1px solid #2a2a2a; border-radius:4px; padding:1.2rem;">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                    <div>
+                        <strong style="color:#fff; font-family:'Barlow Condensed',sans-serif;">
+                            <i class="bi bi-person me-1" style="color:var(--rojo);"></i>
+                            {{ mensaje.remitente.username }}
+                        </strong>
+                        <p style="color:#ccc; margin:0.5rem 0 0; line-height:1.6;">{{ mensaje.contenido }}</p>
+                    </div>
+                    <small class="tag-fecha">{{ mensaje.fecha|date:"d/m/Y H:i" }}</small>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-5" style="border:1px dashed #2a2a2a; border-radius:4px;">
+            <i class="bi bi-envelope-open" style="font-size:3rem; color:#333;"></i>
+            <p style="color:#555; margin-top:1rem; font-family:'Barlow Condensed',sans-serif; font-size:1.1rem; letter-spacing:1px;">
+                No tenés mensajes recibidos.
+            </p>
+            <a href="{% url 'enviar_mensaje' %}" class="btn btn-rojo btn-sm mt-1">
+                Enviar un mensaje
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Enviar Mensaje — BlogAutos{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div class="container">
+        <div class="linea-roja"></div>
+        <h1>Enviar <span>Mensaje</span></h1>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div style="background:var(--gris-oscuro); border:1px solid #2a2a2a; border-radius:4px; padding:2rem;">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="mb-4">
+                        <label class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <div class="text-danger mt-1" style="font-size:0.82rem;">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-rojo px-4">
+                            <i class="bi bi-send me-1"></i>Enviar
+                        </button>
+                        <a href="{% url 'inbox' %}" class="btn btn-outline-secondary">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

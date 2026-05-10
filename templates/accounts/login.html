@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Ingresar — BlogAutos{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div style="background:var(--gris-oscuro); border:1px solid #2a2a2a; border-radius:4px; padding:2.5rem;">
+                <div class="text-center mb-4">
+                    <div class="linea-roja mx-auto"></div>
+                    <h2 style="font-family:'Barlow Condensed',sans-serif; font-weight:800; text-transform:uppercase; color:#fff; font-size:1.8rem;">
+                        Iniciar Sesión
+                    </h2>
+                    <p style="color:#888; font-size:0.85rem;">Ingresá a tu cuenta de BlogAutos</p>
+                </div>
+
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    Usuario o contraseña incorrectos.
+                </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Usuario</label>
+                        <input type="text" name="username" class="form-control bg-dark text-light border-secondary"
+                               placeholder="tu_usuario" autofocus required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" name="password" class="form-control bg-dark text-light border-secondary"
+                               placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-rojo w-100 py-2">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>Ingresar
+                    </button>
+                </form>
+
+                <p class="text-center mt-4" style="color:#888; font-size:0.85rem;">
+                    ¿No tenés cuenta?
+                    <a href="{% url 'signup' %}" style="color:var(--rojo); text-decoration:none; font-weight:600;">
+                        Registrate
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

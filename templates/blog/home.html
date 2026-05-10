@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}Inicio — BlogAutos{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section style="background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 100%); padding: 5rem 0; border-bottom: 1px solid #2a2a2a; position:relative; overflow:hidden;">
+    <div style="position:absolute; right:-5%; top:-20%; width:50%; height:140%; background:var(--rojo); opacity:0.03; transform:rotate(-10deg);"></div>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <p class="tag-fecha mb-2"><i class="bi bi-speedometer2 me-1"></i>El blog automotor definitivo</p>
+                <h1 style="font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:4rem; line-height:1; text-transform:uppercase; color:#fff; letter-spacing:2px;">
+                    PASIÓN POR<br><span style="color:var(--rojo);">LOS AUTOS</span>
+                </h1>
+                <p style="color:#888; margin-top:1.2rem; font-size:1.05rem; max-width:500px; line-height:1.7;">
+                    Reviews, noticias y todo lo que necesitas saber sobre el mundo automotor. Escrito por apasionados, para apasionados.
+                </p>
+                <div class="d-flex gap-2 mt-3">
+                    <a href="{% url 'pages' %}" class="btn btn-rojo px-4 py-2">Ver Posts</a>
+                    <a href="{% url 'about' %}" class="btn btn-outline-rojo px-4 py-2">Nosotros</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- POSTS RECIENTES -->
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <div class="linea-roja"></div>
+                <h2 style="font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:1.8rem; text-transform:uppercase; color:#fff;">
+                    Últimas Publicaciones
+                </h2>
+            </div>
+            {% if user.is_authenticated %}
+            <a href="{% url 'post_create' %}" class="btn btn-rojo">
+                <i class="bi bi-plus-lg me-1"></i>Nuevo Post
+            </a>
+            {% endif %}
+        </div>
+
+        {% if posts %}
+            <div class="row g-4">
+                {% for post in posts %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card-auto h-100">
+                        {% if post.imagen %}
+                            <img src="{{ post.imagen.url }}" alt="{{ post.titulo }}">
+                        {% else %}
+                            <div style="width:100%; height:200px; background:linear-gradient(135deg,#1e1e1e,#2a0a0a); display:flex; align-items:center; justify-content:center;">
+                                <i class="bi bi-car-front" style="font-size:3rem; color:#333;"></i>
+                            </div>
+                        {% endif %}
+                        <div class="card-body d-flex flex-column">
+                            <p class="tag-fecha mb-1"><i class="bi bi-calendar3 me-1"></i>{{ post.fecha }}</p>
+                            <h3 class="card-titulo">{{ post.titulo }}</h3>
+                            <p class="card-subtitulo flex-grow-1">{{ post.subtitulo }}</p>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <small style="color:#555;">
+                                    <i class="bi bi-person me-1"></i>{{ post.autor.username }}
+                                </small>
+                                <a href="{% url 'post_detail' post.pk %}" class="btn btn-rojo btn-sm">
+                                    Leer más <i class="bi bi-arrow-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- PAGINACIÓN -->
+            {% if is_paginated %}
+            <nav class="mt-5 d-flex justify-content-center">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" style="background:var(--gris-oscuro); border-color:var(--gris-borde); color:#fff;">
+                                <i class="bi bi-chevron-left"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item active">
+                        <span class="page-link" style="background:var(--rojo); border-color:var(--rojo);">
+                            {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                        </span>
+                    </li>
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}" style="background:var(--gris-oscuro); border-color:var(--gris-borde); color:#fff;">
+                                <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+
+        {% else %}
+            <!-- Mensaje cuando no hay posts -->
+            <div class="text-center py-5" style="border: 1px dashed #2a2a2a; border-radius:4px;">
+                <i class="bi bi-car-front" style="font-size:3rem; color:#333;"></i>
+                <p style="color:#555; margin-top:1rem; font-family:'Barlow Condensed',sans-serif; font-size:1.2rem; letter-spacing:1px;">
+                    No hay páginas aún.
+                </p>
+                {% if user.is_authenticated %}
+                <a href="{% url 'post_create' %}" class="btn btn-rojo mt-2">
+                    <i class="bi bi-plus-lg me-1"></i>Publicar el primero
+                </a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}
