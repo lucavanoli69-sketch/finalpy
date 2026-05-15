@@ -87,3 +87,7 @@ Una vez creado, acceder a `http://127.0.0.1:8000/admin` e ingresar las credencia
 ## Autor
 
 Proyecto desarrollado por Luca Vanoli.
+
+## Video demostración
+
+https://youtu.be/EnSzcOWWvLk
